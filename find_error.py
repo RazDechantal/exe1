@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+from logging import root
 import sys
 import os
 import re
+
 def error_search(log_file):
   error = input("What is the error? ")
   returned_errors = []
@@ -12,11 +14,15 @@ def error_search(log_file):
         error_patterns.append(r"{}".format(error.split(' ')[i].lower()))
       if all(re.search(error_pattern, log.lower()) for error_pattern in error_patterns):
         returned_errors.append(log)
+        print(log)
     file.close()
   return returned_errors
   
 def file_output(returned_errors):
-  with open(os.path.expanduser('~') + 'errors_found.log', 'w') as file:
+  path = r"./errors_found.log"
+  full_path = os.path.expanduser(path)
+  print(full_path)
+  with open(full_path, 'w') as file:
     for error in returned_errors:
       file.write(error)
     file.close()
